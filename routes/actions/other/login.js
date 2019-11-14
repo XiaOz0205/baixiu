@@ -7,6 +7,8 @@ const _ = require('lodash');
 module.exports = async (req, res) => {
 	// 数据格式校验
 	const { error } = validateLogin(req.fields);
+	console.log(req.fields.password);
+	
 	// 格式不符合要求
 	if (error) return res.status(400).send({message: error.message})
 	// 查找用户
