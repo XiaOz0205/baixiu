@@ -95,31 +95,6 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-center"><input type="checkbox"></td>
-                <td class="text-center"><img class="avatar" src="../assets/img/default.png"></td>
-                <td>coder@itcast.cn</td>
-                <td>coder</td>
-                <td>激活</td>
-                <td>普通用户</td>
-                <td class="text-center">
-                  <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-                  <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center"><input type="checkbox"></td>
-                <td class="text-center"><img class="avatar" src="../assets/img/default.png"></td>
-                <td>coder@itcast.cn</td>
-                <td>coder</td>
-                <td>激活</td>
-                <td>普通用户</td>
-                <td class="text-center">
-                  <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-                  <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-                </td>
-              </tr>
-              
             </tbody>
           </table>
         </div>
@@ -164,7 +139,7 @@
     </ul>
   </div>
   <script src="../assets/vendors/art-template/template-web.js"></script>
-  <script id="tpl" type="text/html">
+  <script id="userTpl" type="text/html">
     {{each data}}
     <tr>
       <td class="text-center"><input type="checkbox"></td>
@@ -177,18 +152,65 @@
       <td>{{$value.status == 1 ? "激活" : "未激活"}}</td>
       <td>{{$value.role == 'normal' ? "普通用户" : "超级管理员"}}</td>
       <td class="text-center">
-        <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-        <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+        <a href="javascript:;" class="btn btn-default btn-xs edit" data-id="{{$value._id}}">编辑</a>
+        <a href="javascript:;" class="btn btn-danger btn-xs delete">删除</a>
       </td>
     </tr>
     {{/each}}
+  </script>
+  <script id="modifyTpl" type="text/html">
+    <form id="modify_user" data-id="{{data._id}}">
+        <h2>修改用户</h2>
+        <div class="form-group">
+          <label>头像</label>
+          <div class="form-group">
+            <label class="form-image">
+              <input name="avatar" id="avatar" type="file">
+              <img src="{{data.avatar?data.avatar:'../assets/img/default.png'}}" id="preview">
+              <i class="mask fa fa-upload"></i>
+              <input value="{{data.avatar}}" type="hidden" name="avatar" id="hiddenAvatar">
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>邮箱</label>
+          <input class="form-control" value="{{data.email}}" type="email" placeholder="请输入邮箱" name="email">
+        </div>
+        <div class="form-group">
+          <label>昵称</label>
+          <input class="form-control" value="{{data.nickName}}" type="text" placeholder="请输入昵称" name="nickName">
+        </div>
+        <div class="form-group">
+          <label>密码</label>
+          <input class="form-control" value="{{data.password}}" type="text" placeholder="请输入密码" name="password">
+        </div>
+        <div class="form-group">
+          <div class="radio-inline">
+            <label><input type="radio" name="status" value="0" {{data.status==0?'checked':''}}>未激活</label>
+          </div>
+          <div class="radio-inline">
+            <label><input type="radio" name="status" value="1" {{data.status==1?'checked':''}}>激活</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="radio-inline">
+            <label><input type="radio" name="role" value="admin" {{data.role=='admin'?'checked':''}}>超级管理员</label>
+          </div>
+          <div class="radio-inline">
+            <label><input type="radio" name="role" value="normal" {{data.role=='normal'?'checked':''}}>普通用户</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">修改</button>
+        </div>
+      </form>
   </script>
   <script src="../assets/vendors/jquery/jquery.js"></script>
   <script src="../assets/vendors/bootstrap/js/bootstrap.js"></script>
   <script>NProgress.done()</script>
   <script>
     $('#add_user').on('submit',function(){
-      var data = $(this).serialize();
+      let data = $(this).serialize();
       $.ajax({
         type: 'post',
         url: '/users',
@@ -200,10 +222,39 @@
           alert('添加失败')
         }
       })
+      return false;
+    })
+    $('#modifyBox').on('submit', '#modify_user', function(){
+      let data = $(this).serialize();
+      let id = $(this).attr('data-id');
+      $.ajax({
+        type: 'put',
+        url: `/users/${id}`,
+        data: data,
+        success: function(res){
+          location.reload();
+        },
+        error: function(){
+          alert('添加失败')
+        }
+      })
+      return false
+    })
+    $('tbody').on('click', '.edit', function(){
+      let id = $(this).attr('data-id');
+      $.ajax({
+        type: "get",
+        url: `/users/${id}`,
+        success: function (response) {
+          var html = template('modifyTpl', {
+            data: response
+          }); 
+          $('#modifyBox').html(html)
+        }
+      });
     })
     $('#modifyBox').on('change', '#avatar', function(){
-    // $('#avatar').on('change',function(){
-      var formData = new FormData();
+      let formData = new FormData();
       formData.append('avatar', this.files[0]);
       $.ajax({
         type: "post",
@@ -221,7 +272,7 @@
       type: "get",
       url: "/users",
       success: function (response) {
-        var html = template('tpl',{
+        var html = template('userTpl',{
           data: response
         })
         $('tbody').html(html)
