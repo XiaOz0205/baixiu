@@ -2,6 +2,8 @@ const { Setting, validateSettings } = require('../../../model/Setting');
 
 module.exports = async (req, res) => {
 	// 数据格式校验
+	console.log(req.fields);
+	
 	const { error } = validateSettings(req.fields);
 	// 格式不符合要求
 	if (error) return res.status(400).send({message: error.message});

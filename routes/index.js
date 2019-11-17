@@ -15,6 +15,7 @@ module.exports = app => {
 
 	// 其他
 	// 用户登录
+	app.get('/login', require('./actions/other/loginPage'));
 	app.post('/login', require('./actions/other/login'));
 	// 用户退出
 	app.post('/logout', require('./actions/other/logout'));

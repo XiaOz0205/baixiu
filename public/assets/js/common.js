@@ -2,12 +2,12 @@ $('#logout').on('click',function(){
     var isConfirmed = confirm("确认退出？");
     if(!isConfirmed) return;
     $.ajax({
-      type: "get",
+      type: "post",
       url: "/logout",
       success: function (response) {
-        location.href = '/login';
+        location.href = '/admin/login.html';
       },
-      error:function(){
+      error:function(err){
         alert('退出失败');
       }
     });
@@ -16,3 +16,12 @@ function formatDate(date){
   let d = new Date(date);
   return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
 }
+
+$.ajax({
+  type: "get",
+  url: `/users/${userId}`,
+  success: function (response) {
+    $('.avatar').attr('src', response.avatar)
+    $('.profile h3').text(response.nickName)
+  }
+});

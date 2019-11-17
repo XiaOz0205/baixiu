@@ -6,6 +6,8 @@ const _ = require('lodash');
 
 module.exports = async (req, res) => {
 	req.session.destroy(err => {
+		console.log(err);
+		
 		if (err == null) {
 			res.clearCookie('connect-sid');
 			res.send({message: '退出成功'});

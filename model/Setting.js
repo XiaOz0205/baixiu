@@ -30,6 +30,14 @@ const SettingSchema = new Schema({
 		type: Boolean,
 		required: true,
 		default: false
+	},
+	description: {
+		type: String,
+		default:''
+	},
+	keywords: {
+		type: String,
+		default:''
 	}
 }, {versionKey: false});
 
