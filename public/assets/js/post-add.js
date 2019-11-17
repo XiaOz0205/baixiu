@@ -21,7 +21,7 @@ $('#feature').on('change', function(){
         }
     });
 })
-$('#articleAdd').on('submit', function(){
+$('#articleEdit').on('submit', function(){
     let formData = $(this).serialize();
     $.ajax({
         type: "post",
@@ -37,10 +37,42 @@ $('#articleAdd').on('submit', function(){
 function getUrlParams(paramName){
     let paraArr = location.search.substr(1).split('&');
     for(let i = 0; i < paraArr.length; i++){
-      let tmp = paraArr[i].split('=');
-      if (tmp[0] == paramName){
+        let tmp = paraArr[i].split('=');
+        if (tmp[0] == paramName){
         return tmp[1];
-      }
+        }
     } 
     return -1;
-  }
+}
+let id = getUrlParams('id');
+if(id != -1){
+    $.ajax({
+        type: "get",
+        url: '/posts/' + id,
+        success: function (response) {
+            $.ajax({
+                type: "get",
+                url: '/categories',
+                success: function (res) {
+                    response.categories = res;
+                    let html = template('modifyTpl', response)
+                    $('#formBox').html(html)
+                }
+            });        
+        }
+    });
+}
+
+$('#formBox').on('submit', '#modifyEdit', function(){
+    let id = $(this).attr('data-id');
+    var formData = $(this).serialize();
+    $.ajax({
+        type: "put",
+        url: `/posts/${id}`,
+        data: formData,
+        success: function (response) {
+            location.href='/admin/posts.html';
+        }
+    });
+    return false
+})
