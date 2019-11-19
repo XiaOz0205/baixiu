@@ -2,6 +2,16 @@ function formatDate(date){
     let d = new Date(date);
     return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
 }
+function getUrlParams(paramName){
+    let paraArr = location.search.substr(1).split('&');
+    for(let i = 0; i < paraArr.length; i++){
+        let tmp = paraArr[i].split('=');
+        if (tmp[0] == paramName){        
+        return tmp[1];
+        }
+    } 
+    return -1;
+}
 $.ajax({
     type: "get",
     url: "/posts/random",
@@ -66,5 +76,11 @@ $.ajax({
         $('.categoryBox').html(html);
     }
 });
+
+$('.search form').on('submit', function(){
+    let key = $(this).find('.keys').val();
+    location.href = 'search.html?key=' + key; 
+    return false
+})
 
   

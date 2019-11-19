@@ -17,8 +17,6 @@ $('#logo').on('change', function(){
     }
 })
 $('#settings').on('submit', function(e){
-    $('#comment_status').val($('#comment_status').prop('checked'))
-    $('#comment_reviewed').val($('#comment_reviewed').prop('checked'))
     let formData = $(this).serialize();
     $.ajax({
         type: "post",

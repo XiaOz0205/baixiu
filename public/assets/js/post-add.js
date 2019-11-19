@@ -35,7 +35,7 @@ $('#articleEdit').on('submit', function(){
 })
 
 function getUrlParams(paramName){
-    let paraArr = location.search.substr(1).split('&');
+    let paraArr = location.search.substr(1).split('&'); 
     for(let i = 0; i < paraArr.length; i++){
         let tmp = paraArr[i].split('=');
         if (tmp[0] == paramName){

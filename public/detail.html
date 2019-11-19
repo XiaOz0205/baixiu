@@ -8,6 +8,15 @@
   <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="assets/vendors/nprogress/nprogress.css">
   <script src="assets/vendors/nprogress/nprogress.js"></script>
+  <style>
+    #postBox p {
+      font-size: 16px;
+      line-height: 150%;
+      margin-top: 1em;
+      text-indent: 2em;
+      word-break: break-all;
+    }
+  </style>
 </head>
 <body>
   <div class="wrapper">
@@ -48,24 +57,10 @@
       </div>
     </div>
     <div class="content">
-      <div class="article">
-        <div class="breadcrumb">
-          <dl>
-            <dt>当前位置：</dt>
-            <dd><a href="javascript:;">奇趣事</a></dd>
-            <dd>变废为宝！将手机旧电池变为充电宝的Better RE移动电源</dd>
-          </dl>
-        </div>
-        <h2 class="title">
-          <a href="javascript:;">又现酒窝夹笔盖新技能 城里人是不让人活了！</a>
-        </h2>
-        <div class="meta">
-          <span>DUX主题小秘 发布于 2020-06-29</span>
-          <span>分类: <a href="javascript:;">奇趣事</a></span>
-          <span>阅读: (2421)</span>
-          <span>评论: (143)</span>
-        </div>
+      <div class="article" id="postBox">
       </div>
+      <div id="commentsBox"></div>
+      <div id="commentSubmit"></div>
       <div class="panel hots">
         <h3>热门推荐</h3>
         <ul id="recommendBox">
@@ -80,5 +75,58 @@
   <script src="assets/vendors/art-template/template-web.js"></script>
   <script src="assets/js/recommend.js"></script>
   <script src="assets/js/public.js"></script>
+  <script src="assets/js/detail.js"></script>
+  <script id="postTpl" type="text/html">
+    <div class="breadcrumb">
+      <dl>
+        <dt>当前位置：</dt>
+        <dd><a href="list.html?categoryId={{category._id}}">{{category.title}}</a></dd>
+        <dd>{{title}}</dd>
+      </dl>
+    </div>
+    <h2 class="title">
+      <a href="javascript:;">{{title}}</a>
+    </h2>
+    <div class="meta">
+      <span>{{author.nickName}}</span>
+      <span>分类: <a href="list.html?categoryId={{category._id}}">{{category.title}}</a></span>
+      <span>阅读: ({{meta.views}})</span>
+      <span>评论: ({{meta.comments}})</span>
+      <a href="javascript:;" class="like">
+        <i class="fa fa-thumbs-up"></i>
+        <span>赞(({{meta.likes}})</span>
+      </a>
+    </div>
+    <p>
+        {{content}}
+    </p>
+  </script>
+  <script id="commentTpl" type="text/html">
+    {{if comment}}
+    <style type="text/css">
+      .comment {
+        margin-bottom: 20px;
+      }
+      .comment textarea{
+        box-sizing: border-box;
+        padding: 10px;
+        width: 100%;
+        height: 80px;
+        display: block;
+      }
+      .comment input {
+        width: 100px;
+        height: 30px;
+        margin-top: 10px;
+      }
+    </style>
+    <div class="comment">
+      <form>
+        <textarea></textarea>
+        <input type="submit" value="提交评论">
+      </form>
+    </div>
+    {{/if}}
+  </script>
 </body>
 </html>

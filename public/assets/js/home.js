@@ -2,6 +2,8 @@ $.ajax({
     type: "get",
     url: "/slides",
     success: function (response) {
+        console.log(response);
+        
         let html = template('swipeTpl', {data: response});
         $('.swipe-wrapper').html(html);
         var swiper = Swipe(document.querySelector('.swipe'), {

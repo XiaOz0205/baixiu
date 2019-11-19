@@ -31,7 +31,7 @@
         <h4>搜索</h4>
         <div class="body search">
           <form>
-            <input type="text" class="keys" placeholder="输入关键字">
+            <input type="text" class="keys" placeholder="输入关键字" >
             <input type="submit" class="btn" value="搜索">
           </form>
         </div>
@@ -50,25 +50,6 @@
     <div class="content">
       <div class="swipe">
         <ul class="swipe-wrapper">
-         
-          <li>
-            <a href="#">
-              <img src="uploads/slide_2.jpg">
-              <span>XIU主题演示</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="uploads/slide_1.jpg">
-              <span>XIU主题演示</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="uploads/slide_2.jpg">
-              <span>XIU主题演示</span>
-            </a>
-          </li>
         </ul>
         <p class="cursor"><span class="active"></span><span></span><span></span><span></span></p>
         <a href="javascript:;" class="arrow prev"><i class="fa fa-chevron-left"></i></a>
@@ -97,7 +78,7 @@
   <script id="swipeTpl" type="text/html">
     {{each data}}
     <li>
-      <a href="detail.html?id={{$value._id}}">
+      <a href="detail.html?id={{$value.link}}">
         <img src="{{$value.image}}">
         <span>{{$value.title}}</span>
       </a>
