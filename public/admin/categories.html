@@ -158,66 +158,10 @@
           <input class="form-control" name="className" value="{{className}}" type="text" placeholder="请输入分类图标类名" />
         </div>
         <div class="form-group">
-          <button class="btn btn-primary" type="submit">添加</button>
+          <button class="btn btn-primary" type="submit">修改</button>
         </div>
     </form>
   </script>
-  <script>
-    $.ajax({
-      type: "get",
-      url: "/categories",
-      success: function (response) {
-        let html = template('showCategoryTpl', {data: response});
-        $('tbody').html(html)
-      }
-    });
-    $('#addCategory').on('submit', function(){
-      var formData = $(this).serialize();
-      $.ajax({
-        type: "post",
-        url: "/categories",
-        data: formData,
-        success: function (response) {
-          location.reload();
-        }
-      });
-      return false; 
-    })
-    $('tbody').on('click', '.edit', function(){
-      var id = $(this).attr('data-id');
-      $.ajax({
-        type: "get",
-        url: "/categories/" + id,
-        success: function (response) {
-          var html = template('modifyCategoryTpl', response);
-          $('#categoryBox').html(html)
-        }
-      });
-    })
-    $('tbody').on('click', '.delete', function(){
-      var id = $(this).siblings('.edit').attr('data-id');
-      $.ajax({
-        type: "delete",
-        url: "/categories/" + id,
-        success: function (response) {
-          location.reload()
-        }
-      });
-    })
-    $('#categoryBox').on('submit', '#modifyCategory', function(){
-      let formData = $(this).serialize();
-      let id = $(this).attr('data-id');
-      $.ajax({
-        type: "put",
-        url: "/categories/" + id,
-        data: formData,
-        dataType: "dataType",
-        success: function (response) {   
-          location.reload()
-        }
-      });
-      return false;
-    })
-  </script>
+  <script src="../assets/js/category.js"></script>
 </body>
 </html>
